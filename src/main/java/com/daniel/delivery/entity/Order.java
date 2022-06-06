@@ -18,10 +18,8 @@ public class Order implements BaseEntity<Long> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
     private String product;
 
-    @Column(unique = true, nullable = false)
     private Date dateOrder;
 
     @ManyToOne()

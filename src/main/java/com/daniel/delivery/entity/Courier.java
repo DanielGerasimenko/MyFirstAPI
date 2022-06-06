@@ -17,9 +17,7 @@ public class Courier implements BaseEntity<Long>{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
     private String firstName;
 
-    @Column(unique = true, nullable = false)
     private String lastName;
 }
