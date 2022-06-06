@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/courier")
 public class CourierController {
 
     private final CourierRepository courierRepository;
@@ -17,23 +18,23 @@ public class CourierController {
         this.courierRepository = courierRepository;
     }
 
-    @GetMapping("/courier")
+    @GetMapping("/all")
     List<Courier> all(){
         return courierRepository.findAll();
     }
 
-    @PostMapping("/courier")
+    @PostMapping()
     Courier newCourier(@RequestBody Courier newCourier){
         return courierRepository.save(newCourier);
     }
 
-    @GetMapping("/courier/{id}")
+    @GetMapping("/{id}")
     Courier one(@PathVariable Long id){
         return courierRepository.findById(id)
                 .orElseThrow(() -> new CourierNotFoundException(id));
     }
 
-    @PutMapping("/courier/{id}")
+    @PutMapping("/{id}/edit")
     Courier replaceCourier (@RequestBody Courier newCourier, @PathVariable Long id){
         return courierRepository.findById(id)
                 .map(courier -> {
@@ -46,7 +47,7 @@ public class CourierController {
                 });
     }
 
-    @DeleteMapping("/courier/{id}")
+    @DeleteMapping("/{id}/delete")
     public void deleteCourier(@PathVariable Long id){
         courierRepository.deleteById(id);
     }
