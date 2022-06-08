@@ -1,11 +1,9 @@
 package com.daniel.delivery.controller;
 
 
-import com.daniel.delivery.entity.Courier;
 import com.daniel.delivery.entity.Person;
 import com.daniel.delivery.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
