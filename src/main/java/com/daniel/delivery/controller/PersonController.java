@@ -1,9 +1,11 @@
 package com.daniel.delivery.controller;
 
 
-import com.daniel.delivery.repository.PersonRepository;
+import com.daniel.delivery.entity.Courier;
 import com.daniel.delivery.entity.Person;
-import com.daniel.delivery.exception.PersonNotFoundException;
+import com.daniel.delivery.service.PersonService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,45 +14,31 @@ import java.util.List;
 @RequestMapping("/person")
 public class PersonController {
 
-    private final PersonRepository personRepository;
-
-
-    public PersonController(PersonRepository personRepository) {
-        this.personRepository = personRepository;
-    }
+    @Autowired
+    private PersonService personService;
 
     @GetMapping("/all")
     List<Person> all(){
-        return personRepository.findAll();
+        return personService.listAll();
     }
 
     @PostMapping()
-    Person newPerson(@RequestBody Person newPerson){
-        return personRepository.save(newPerson);
+    Person newPerson(@RequestBody Person Person){
+        return personService.save(Person);
     }
 
     @GetMapping("/{id}")
     Person one(@PathVariable Long id){
-        return personRepository.findById(id)
-                .orElseThrow(() -> new PersonNotFoundException(id));
+        return personService.get(id);
     }
 
     @PutMapping("/{id}/edit")
     Person replacePerson (@RequestBody Person newPerson, @PathVariable Long id){
-        return personRepository.findById(id)
-                .map(person -> {
-                    person.setFirstName(newPerson.getFirstName());
-                    person.setLastName(newPerson.getLastName());
-                    person.setAddress(newPerson.getAddress());
-                    return personRepository.save(person);
-                }).orElseGet(()->{
-                    newPerson.setId(id);
-                    return personRepository.save(newPerson);
-                });
+      return personService.editPerson(newPerson, id);
     }
 
     @DeleteMapping("/{id}/delete")
-    public void deletePerson(@PathVariable Long id){
-        personRepository.deleteById(id);
+    void deletePerson(@PathVariable Long id){
+        personService.delete(id);
     }
 }
