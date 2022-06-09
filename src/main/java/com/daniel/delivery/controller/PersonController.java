@@ -12,15 +12,18 @@ import java.util.List;
 @RequestMapping("/person")
 public class PersonController {
 
-    @Autowired
-    private PersonService personService;
+    private final PersonService personService;
+
+    public PersonController(PersonService personService) {
+        this.personService = personService;
+    }
 
     @GetMapping("/all")
     List<Person> all(){
         return personService.listAll();
     }
 
-    @PostMapping()
+    @PostMapping("/new")
     Person newPerson(@RequestBody Person Person){
         return personService.save(Person);
     }
@@ -30,13 +33,13 @@ public class PersonController {
         return personService.get(id);
     }
 
-    @PutMapping("/{id}/edit")
+    @PutMapping("/{id}")
     Person replacePerson (@RequestBody Person newPerson, @PathVariable Long id){
       return personService.editPerson(newPerson, id);
     }
 
-    @DeleteMapping("/{id}/delete")
-    void deletePerson(@PathVariable Long id){
+    @DeleteMapping("/{id}")
+     void deletePerson(@PathVariable Long id){
         personService.delete(id);
     }
 }
