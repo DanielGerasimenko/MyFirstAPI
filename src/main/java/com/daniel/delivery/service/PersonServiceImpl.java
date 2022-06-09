@@ -4,7 +4,6 @@ import com.daniel.delivery.entity.Person;
 import com.daniel.delivery.exception.PersonNotFoundException;
 import com.daniel.delivery.repository.PersonRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
