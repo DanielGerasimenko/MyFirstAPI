@@ -1,45 +1,72 @@
 package com.daniel.delivery.service;
 
+import com.daniel.delivery.dto.PersonDto;
 import com.daniel.delivery.entity.Person;
 import com.daniel.delivery.exception.PersonNotFoundException;
 import com.daniel.delivery.repository.PersonRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class PersonServiceImpl implements PersonService {
 
     private final PersonRepository personRepository;
 
-    public PersonServiceImpl(PersonRepository personRepository) {
+    private final ModelMapper modelMapper;
+
+    public PersonServiceImpl(PersonRepository personRepository, ModelMapper modelMapper) {
         this.personRepository = personRepository;
+        this.modelMapper = modelMapper;
+    }
+
+
+    @Override
+    public List<PersonDto> getAllPerson() {
+        List<Person> personList = personRepository.findAll();
+        return personList.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<Person> getAllPerson() {
-        return personRepository.findAll();
+    public PersonDto getPersonById(Long id){
+        return convertToDto(personRepository.getById(id));
     }
 
     @Override
-    public Person createPerson(Person person) {
-        return personRepository.save(person);
+    public PersonDto createPerson(PersonDto personDto) {
+        Person person = convertToEntity(personDto);
+        Person personCreated = personRepository.save(person);
+        return convertToDto(personCreated);
     }
 
     @Override
-    public void updatePerson(Person person) {
+    public void updatePerson(Long id, PersonDto personDto) {
+        if (!Objects.equals(id, personDto.getId())) {
+            throw new PersonNotFoundException(id);
+        }
+        Person person = convertToEntity(personDto);
+        person.setFirstName(personDto.getFirstName());
+        person.setLastName(personDto.getLastName());
+        person.setAddress(personDto.getAddress());
         personRepository.save(person);
     }
 
     @Override
     public void deletePerson(Long id) {
         Person person = personRepository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
-
         personRepository.delete(person);
     }
 
-    @Override
-    public Person getPersonById(Long id) {
-        return personRepository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
+    private PersonDto convertToDto(Person person) {
+        return modelMapper.map(person, PersonDto.class);
+    }
+
+    private Person convertToEntity(PersonDto personDto) {
+        return modelMapper.map(personDto, Person.class);
     }
 }

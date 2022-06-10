@@ -1,18 +1,19 @@
 package com.daniel.delivery.service;
 
-import com.daniel.delivery.entity.Person;
+import com.daniel.delivery.dto.PersonDto;
 
 import java.util.List;
 
 public interface PersonService {
 
-    List<Person> getAllPerson();
+    List<PersonDto> getAllPerson();
 
-    Person createPerson(Person person);
+    PersonDto getPersonById(Long id);
 
-    void updatePerson(Person person);
+    PersonDto createPerson(PersonDto personDto);
+
+    void updatePerson(Long id, PersonDto personDto);
 
     void deletePerson(Long id);
 
-    Person getPersonById(Long id);
 }

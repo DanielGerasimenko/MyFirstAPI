@@ -1,73 +1,50 @@
 package com.daniel.delivery.controller;
 
 import com.daniel.delivery.dto.PersonDto;
-import com.daniel.delivery.entity.Person;
-import com.daniel.delivery.exception.PersonNotFoundException;
 import com.daniel.delivery.service.PersonService;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/person")
 public class PersonController {
-    private final ModelMapper modelMapper;
 
     private final PersonService personService;
 
-    public PersonController(PersonService personService, ModelMapper modelMapper){
+    public PersonController(PersonService personService) {
         this.personService = personService;
-        this.modelMapper = modelMapper;
     }
 
-    @GetMapping("/all")
+
+    @GetMapping
     @ResponseBody
-    public List<PersonDto> getAllPerson(){
-        List<Person> personList = personService.getAllPerson();
-        return personList.stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
+    public List<PersonDto> getAllPersons() {
+        return personService.getAllPerson();
     }
 
-    @PostMapping("/create")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public PersonDto createPerson(@RequestBody PersonDto personDto) {
-        Person person = convertToEntity(personDto);
-        Person personCreated = personService.createPerson(person);
-        return convertToDto(personCreated);
+    public PersonDto createPersons(@RequestBody PersonDto personDto) {
+        return personService.createPerson(personDto);
     }
 
-    @GetMapping("/{id}")
-    public PersonDto getPerson(@PathVariable("id") Long id){
-        return convertToDto(personService.getPersonById(id));
+    @GetMapping
+    public PersonDto getPerson(@PathVariable Long id){
+        return personService.getPersonById(id);
     }
 
-    @PutMapping("/{id}/update")
+    @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public void updatePerson(@PathVariable("id") Long id, @RequestBody PersonDto personDto){
-        if(!Objects.equals(id, personDto.getId())){
-            throw new PersonNotFoundException(id);
-        }
-
-        Person person = convertToEntity(personDto);
-        personService.updatePerson(person);
+    public void updatePersons(@PathVariable("id") Long id, @RequestBody PersonDto personDto){
+        personService.updatePerson(id,personDto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping
     @ResponseStatus(HttpStatus.OK)
-    public void deletePerson(@PathVariable("id") Long id){
+    public void deletePersons(@PathVariable("id") Long id){
         personService.deletePerson(id);
     }
 
-    private PersonDto convertToDto(Person person) {
-        return modelMapper.map(person, PersonDto.class);
-    }
-
-    private Person convertToEntity(PersonDto personDto) {
-        return modelMapper.map(personDto, Person.class);
-    }
 }
