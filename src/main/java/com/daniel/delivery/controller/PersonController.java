@@ -2,7 +2,6 @@ package com.daniel.delivery.controller;
 
 import com.daniel.delivery.dto.PersonDto;
 import com.daniel.delivery.service.PersonService;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -37,13 +36,13 @@ public class PersonController {
         return personService.getPersonById(id);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void updatePersonsId(@PathVariable Long id, @RequestBody PersonDto personDto){
         personService.updatePerson(id,personDto);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deletePersonId(@PathVariable Long id){
         personService.deletePerson(id);
