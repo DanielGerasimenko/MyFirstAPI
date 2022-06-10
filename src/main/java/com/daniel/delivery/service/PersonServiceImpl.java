@@ -6,6 +6,8 @@ import com.daniel.delivery.exception.PersonNotFoundException;
 import com.daniel.delivery.repository.PersonRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Objects;
@@ -34,7 +36,8 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public PersonDto getPersonById(Long id){
-        return convertToDto(personRepository.getById(id));
+        Person person = personRepository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
+        return convertToDto(person);
     }
 
     @Override
@@ -46,13 +49,11 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void updatePerson(Long id, PersonDto personDto) {
-        if (!Objects.equals(id, personDto.getId())) {
+        if(!Objects.equals(id, personDto.getId())){
             throw new PersonNotFoundException(id);
         }
+
         Person person = convertToEntity(personDto);
-        person.setFirstName(personDto.getFirstName());
-        person.setLastName(personDto.getLastName());
-        person.setAddress(personDto.getAddress());
         personRepository.save(person);
     }
 
