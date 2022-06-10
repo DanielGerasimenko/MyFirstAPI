@@ -18,16 +18,13 @@ public class PersonController {
     }
 
     @GetMapping
-    @ResponseBody
-    @ApiOperation(value = "Get all person")
     public List<PersonDto> getPersonAll() {
         return personService.getAllPerson();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @ResponseBody
-    public PersonDto createPersonAll(@RequestBody PersonDto personDto) {
+    public PersonDto createPerson(@RequestBody PersonDto personDto) {
         return personService.createPerson(personDto);
     }
 

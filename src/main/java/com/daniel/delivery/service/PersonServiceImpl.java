@@ -6,14 +6,14 @@ import com.daniel.delivery.exception.PersonNotFoundException;
 import com.daniel.delivery.repository.PersonRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class PersonServiceImpl implements PersonService {
 
     private final PersonRepository personRepository;
