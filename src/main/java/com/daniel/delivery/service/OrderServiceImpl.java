@@ -73,18 +73,25 @@ public class OrderServiceImpl implements OrderService {
         return orderDto;
     }
 
-    private PersonDto convertToPersonDto(Person person) {return modelMapper.map(person, PersonDto.class); }
-    private CourierDto convertToCourierDto(Courier courier) {return modelMapper.map(courier, CourierDto.class); }
+    private PersonDto convertToPersonDto(Person person) {
+        return modelMapper.map(person, PersonDto.class);
+    }
 
+    private CourierDto convertToCourierDto(Courier courier) {
+        return modelMapper.map(courier, CourierDto.class);
+    }
 
-    private Order convertToOrderEntity (OrderDto orderDto){
+    private Order convertToOrderEntity(OrderDto orderDto) {
         Order order = modelMapper.map(orderDto, Order.class);
         order.setPerson(convertToPersonEntity(orderDto.getPersonDto()));
         order.setCourier(convertToCourierEntity(orderDto.getCourierDto()));
         return order;
     }
 
-    private Person convertToPersonEntity (PersonDto personDto){ return modelMapper.map(personDto, Person.class); }
+    private Person convertToPersonEntity(PersonDto personDto) {
+        return modelMapper.map(personDto, Person.class);
+    }
+
     private Courier convertToCourierEntity(CourierDto courierDto) {
         return modelMapper.map(courierDto, Courier.class);
     }

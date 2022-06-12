@@ -12,7 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "person")
-public class Person implements BaseEntity<Long>{
+public class Person implements BaseEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

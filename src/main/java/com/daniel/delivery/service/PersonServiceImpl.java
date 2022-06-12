@@ -25,7 +25,6 @@ public class PersonServiceImpl implements PersonService {
         this.modelMapper = modelMapper;
     }
 
-
     @Override
     public List<PersonDto> getAllPerson() {
         List<Person> personList = personRepository.findAll();
@@ -35,7 +34,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public PersonDto getPersonById(Long id){
+    public PersonDto getPersonById(Long id) {
         Person person = personRepository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
         return convertToPersonDto(person);
     }
@@ -49,7 +48,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void updatePersonById(Long id, PersonDto personDto) {
-        if(!Objects.equals(id, personDto.getId())){
+        if (!Objects.equals(id, personDto.getId())) {
             throw new PersonNotFoundException(id);
         }
 

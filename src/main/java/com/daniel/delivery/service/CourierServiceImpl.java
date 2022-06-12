@@ -47,7 +47,7 @@ public class CourierServiceImpl implements CourierService {
 
     @Override
     public void updateCourierById(Long id, CourierDto courierDto) {
-        if (!Objects.equals(id, courierDto.getId())){
+        if (!Objects.equals(id, courierDto.getId())) {
             throw new CourierNotFoundException(id);
         }
         Courier courier = convertToCourierEntity(courierDto);
@@ -56,7 +56,7 @@ public class CourierServiceImpl implements CourierService {
 
     @Override
     public void deleteCourierById(Long id) {
-        Courier courier = courierRepository.findById(id).orElseThrow(()-> new CourierNotFoundException(id));
+        Courier courier = courierRepository.findById(id).orElseThrow(() -> new CourierNotFoundException(id));
         courierRepository.delete(courier);
     }
 

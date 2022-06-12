@@ -17,7 +17,6 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-
     @GetMapping
     public List<OrderDto> getOrderAll() {
         return orderService.getAllOrder();
@@ -30,19 +29,19 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public OrderDto getOrder(@PathVariable ("id") Long id){
+    public OrderDto getOrder(@PathVariable("id") Long id) {
         return orderService.getOrderById(id);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void updateOrder(@PathVariable Long id, @RequestBody OrderDto orderDto){
-        orderService.updateOrderById(id,orderDto);
+    public void updateOrder(@PathVariable Long id, @RequestBody OrderDto orderDto) {
+        orderService.updateOrderById(id, orderDto);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteOrder(@PathVariable Long id){
+    public void deleteOrder(@PathVariable Long id) {
         orderService.deleteOrderById(id);
     }
 

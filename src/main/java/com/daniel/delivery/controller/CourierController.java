@@ -17,7 +17,6 @@ public class CourierController {
         this.courierService = courierService;
     }
 
-
     @GetMapping
     public List<CourierDto> getOrderAll() {
         return courierService.getAllCourier();
@@ -30,20 +29,19 @@ public class CourierController {
     }
 
     @GetMapping("/{id}")
-    public CourierDto getCourier(@PathVariable ("id") Long id){
+    public CourierDto getCourier(@PathVariable("id") Long id) {
         return courierService.getCourierById(id);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void updateCourier(@PathVariable Long id, @RequestBody CourierDto courierDto){
-        courierService.updateCourierById(id,courierDto);
+    public void updateCourier(@PathVariable Long id, @RequestBody CourierDto courierDto) {
+        courierService.updateCourierById(id, courierDto);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteCourier(@PathVariable Long id){
+    public void deleteCourier(@PathVariable Long id) {
         courierService.deleteCourierById(id);
     }
-
 }

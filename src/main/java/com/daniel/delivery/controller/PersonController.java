@@ -4,6 +4,7 @@ import com.daniel.delivery.dto.PersonDto;
 import com.daniel.delivery.service.PersonService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -28,20 +29,19 @@ public class PersonController {
     }
 
     @GetMapping("/{id}")
-    public PersonDto getPerson(@PathVariable ("id") Long id){
+    public PersonDto getPerson(@PathVariable("id") Long id) {
         return personService.getPersonById(id);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void updatePerson(@PathVariable Long id, @RequestBody PersonDto personDto){
-        personService.updatePersonById(id,personDto);
+    public void updatePerson(@PathVariable Long id, @RequestBody PersonDto personDto) {
+        personService.updatePersonById(id, personDto);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deletePerson(@PathVariable Long id){
+    public void deletePerson(@PathVariable Long id) {
         personService.deletePersonById(id);
     }
-
 }

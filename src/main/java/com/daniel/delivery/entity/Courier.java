@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "courier")
-public class Courier implements BaseEntity<Long>{
+public class Courier implements BaseEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
