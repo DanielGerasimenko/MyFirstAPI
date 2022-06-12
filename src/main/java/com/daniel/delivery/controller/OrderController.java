@@ -1,57 +1,49 @@
 package com.daniel.delivery.controller;
 
-
-import com.daniel.delivery.entity.Order;
-import com.daniel.delivery.exception.OrderNotFoundException;
-import com.daniel.delivery.repository.OrderRepository;
+import com.daniel.delivery.dto.OrderDto;
+import com.daniel.delivery.service.OrderService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping ("/order")
+@RequestMapping("/order")
 public class OrderController {
 
-    private final OrderRepository orderRepository;
+    private final OrderService orderService;
 
-    public OrderController(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
+    public OrderController(OrderService orderService) {
+        this.orderService = orderService;
     }
 
-    @GetMapping("/all")
-    List<Order> all(){
-        return orderRepository.findAll();
+
+    @GetMapping
+    public List<OrderDto> getOrderAll() {
+        return orderService.getAllOrder();
     }
 
-    @PostMapping()
-    Order newOrder(@RequestBody Order newOrder){
-        return orderRepository.save(newOrder);
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public OrderDto createOrder(@RequestBody OrderDto orderDto) {
+        return orderService.createOrder(orderDto);
     }
 
     @GetMapping("/{id}")
-    Order one(@PathVariable Long id){
-        return orderRepository.findById(id)
-                .orElseThrow(() -> new OrderNotFoundException(id));
+    public OrderDto getOrder(@PathVariable ("id") Long id){
+        return orderService.getOrderById(id);
     }
 
-
-    @PutMapping("/{id}/edit")
-    Order replaceOrder (@RequestBody Order newOrder, @PathVariable Long id){
-        return orderRepository.findById(id)
-                .map(order -> {
-                    order.setProduct(newOrder.getProduct());
-                    order.setDateOrder(newOrder.getDateOrder());
-                    order.setPerson(newOrder.getPerson());
-                    order.setCourier(newOrder.getCourier());
-                    return orderRepository.save(order);
-                }).orElseGet(()->{
-                    newOrder.setId(id);
-                    return orderRepository.save(newOrder);
-                });
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateOrder(@PathVariable Long id, @RequestBody OrderDto orderDto){
+        orderService.updateOrderById(id,orderDto);
     }
 
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public void deleteOrder(@PathVariable Long id){
-        orderRepository.deleteById(id);
+        orderService.deleteOrderById(id);
     }
+
 }

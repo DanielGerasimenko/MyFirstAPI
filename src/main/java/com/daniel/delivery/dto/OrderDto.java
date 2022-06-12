@@ -1,9 +1,9 @@
 package com.daniel.delivery.dto;
 
-import com.daniel.delivery.entity.Courier;
-import com.daniel.delivery.entity.Person;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import java.util.Date;
+
+import java.time.LocalDateTime;
 
 @Data
 public class OrderDto {
@@ -12,9 +12,11 @@ public class OrderDto {
 
     private String product;
 
-    private Date dateOrder;
+    private LocalDateTime dateOrder;
 
-    private Person person;
+    @JsonProperty("person")
+    private PersonDto personDto;
 
-    private Courier courier;
+    @JsonProperty("courier")
+    private CourierDto courierDto;
 }

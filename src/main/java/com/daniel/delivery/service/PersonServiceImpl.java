@@ -30,44 +30,44 @@ public class PersonServiceImpl implements PersonService {
     public List<PersonDto> getAllPerson() {
         List<Person> personList = personRepository.findAll();
         return personList.stream()
-                .map(this::convertToDto)
+                .map(this::convertToPersonDto)
                 .collect(Collectors.toList());
     }
 
     @Override
     public PersonDto getPersonById(Long id){
         Person person = personRepository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
-        return convertToDto(person);
+        return convertToPersonDto(person);
     }
 
     @Override
     public PersonDto createPerson(PersonDto personDto) {
-        Person person = convertToEntity(personDto);
+        Person person = convertToPersonEntity(personDto);
         Person personCreated = personRepository.save(person);
-        return convertToDto(personCreated);
+        return convertToPersonDto(personCreated);
     }
 
     @Override
-    public void updatePerson(Long id, PersonDto personDto) {
+    public void updatePersonById(Long id, PersonDto personDto) {
         if(!Objects.equals(id, personDto.getId())){
             throw new PersonNotFoundException(id);
         }
 
-        Person person = convertToEntity(personDto);
+        Person person = convertToPersonEntity(personDto);
         personRepository.save(person);
     }
 
     @Override
-    public void deletePerson(Long id) {
+    public void deletePersonById(Long id) {
         Person person = personRepository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
         personRepository.delete(person);
     }
 
-    private PersonDto convertToDto(Person person) {
+    private PersonDto convertToPersonDto(Person person) {
         return modelMapper.map(person, PersonDto.class);
     }
 
-    private Person convertToEntity(PersonDto personDto) {
+    private Person convertToPersonEntity(PersonDto personDto) {
         return modelMapper.map(personDto, Person.class);
     }
 }

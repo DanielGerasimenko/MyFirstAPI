@@ -1,8 +1,8 @@
 package com.daniel.delivery.controller;
 
-import com.daniel.delivery.entity.Courier;
-import com.daniel.delivery.exception.CourierNotFoundException;
-import com.daniel.delivery.repository.CourierRepository;
+import com.daniel.delivery.dto.CourierDto;
+import com.daniel.delivery.service.CourierService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,44 +11,39 @@ import java.util.List;
 @RequestMapping("/courier")
 public class CourierController {
 
-    private final CourierRepository courierRepository;
+    private final CourierService courierService;
 
-
-    public CourierController(CourierRepository courierRepository) {
-        this.courierRepository = courierRepository;
+    public CourierController(CourierService courierService) {
+        this.courierService = courierService;
     }
 
-    @GetMapping("/all")
-    List<Courier> all(){
-        return courierRepository.findAll();
+
+    @GetMapping
+    public List<CourierDto> getOrderAll() {
+        return courierService.getAllCourier();
     }
 
-    @PostMapping()
-    Courier newCourier(@RequestBody Courier newCourier){
-        return courierRepository.save(newCourier);
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public CourierDto createCourier(@RequestBody CourierDto courierDto) {
+        return courierService.createCourier(courierDto);
     }
 
     @GetMapping("/{id}")
-    Courier one(@PathVariable Long id){
-        return courierRepository.findById(id)
-                .orElseThrow(() -> new CourierNotFoundException(id));
+    public CourierDto getCourier(@PathVariable ("id") Long id){
+        return courierService.getCourierById(id);
     }
 
-    @PutMapping("/{id}/edit")
-    Courier replaceCourier (@RequestBody Courier newCourier, @PathVariable Long id){
-        return courierRepository.findById(id)
-                .map(courier -> {
-                    courier.setFirstName(newCourier.getFirstName());
-                    courier.setLastName(newCourier.getLastName());
-                    return courierRepository.save(courier);
-                }).orElseGet(()->{
-                    newCourier.setId(id);
-                    return courierRepository.save(newCourier);
-                });
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateCourier(@PathVariable Long id, @RequestBody CourierDto courierDto){
+        courierService.updateCourierById(id,courierDto);
     }
 
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public void deleteCourier(@PathVariable Long id){
-        courierRepository.deleteById(id);
+        courierService.deleteCourierById(id);
     }
+
 }
