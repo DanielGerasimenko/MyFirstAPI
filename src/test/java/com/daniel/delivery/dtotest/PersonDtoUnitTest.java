@@ -15,8 +15,8 @@ public class PersonDtoUnitTest {
     public void whenConvertPersonEntityToPersonDto_thenCorrect() {
         Person person = new Person();
         person.setId(11L);
-        person.setFirstName("qwer");
-        person.setLastName("www");
+        person.setFirstName("daniel");
+        person.setLastName("ger");
         person.setAddress("12345g");
 
         PersonDto personDto = modelMapper.map(person, PersonDto.class);
@@ -31,8 +31,8 @@ public class PersonDtoUnitTest {
     public void whenConvertPersonDtoToPersonEntity_thenCorrect() {
         PersonDto personDto = new PersonDto();
         personDto.setId(11L);
-        personDto.setFirstName("qwer");
-        personDto.setLastName("www");
+        personDto.setFirstName("daniel");
+        personDto.setLastName("ger");
         personDto.setAddress("12345g");
 
         Person person = modelMapper.map(personDto, Person.class);
