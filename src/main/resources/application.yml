@@ -2,8 +2,8 @@ spring:
   jpa:
     open-in-view: false
   datasource:
-    username: postgres
-    password: pass
+    username: 
+    password: 
     url: "jdbc:postgresql://localhost:5433/postgres"
     driver-class-name: org.postgresql.Driver
   liquibase:
