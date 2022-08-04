@@ -2,11 +2,7 @@ package com.daniel.delivery.dto;
 
 import lombok.*;
 
-@Setter
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+@Data
 public class PersonDto {
 
     private Long id;
