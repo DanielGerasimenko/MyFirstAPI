@@ -19,4 +19,9 @@ public class OrderDto {
 
     @JsonProperty("courier")
     private CourierDto courierDto;
+
+//    String address;
+//    String contactName;
+//    String contactPhone;
+//
 }

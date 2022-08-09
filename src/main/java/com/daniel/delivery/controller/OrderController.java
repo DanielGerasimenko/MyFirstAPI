@@ -11,6 +11,8 @@ import java.util.List;
 @RequestMapping("/order")
 public class OrderController {
 
+    private final Long mockedCourierId = 10L;
+
     private final OrderService orderService;
 
     public OrderController(OrderService orderService) {
@@ -29,8 +31,8 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public OrderDto getOrder(@PathVariable("id") Long id) {
-        return orderService.getOrderById(id);
+    public OrderDto getOrder(@PathVariable("id") Long orderId) {
+        return orderService.getOrderByIdAndCourierId(orderId, mockedCourierId);
     }
 
     @PutMapping("/{id}")

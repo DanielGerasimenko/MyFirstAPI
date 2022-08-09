@@ -2,6 +2,7 @@ package com.daniel.delivery.controller;
 
 import com.daniel.delivery.dto.PersonDto;
 import com.daniel.delivery.service.PersonService;
+import io.swagger.annotations.Authorization;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

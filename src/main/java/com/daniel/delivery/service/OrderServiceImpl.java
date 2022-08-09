@@ -44,6 +44,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public OrderDto getOrderByIdAndCourierId(Long orderId, Long courierId) {
+
+        return null;
+    }
+
+    @Override
     public OrderDto createOrder(OrderDto orderDto) {
         Order order = convertToOrderEntity(orderDto);
         Order orderCreated = orderRepository.save(order);
